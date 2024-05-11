@@ -4,7 +4,7 @@ dotenv.config();
 
 const firestore: any = {}
 
-const {privateKey} = JSON.parse(process.env.FIREBASE_PRIVATE_KEY || "{}");
+const { privateKey } = JSON.parse(process.env.FIREBASE_PRIVATE_KEY || "{}");
 
 const serviceAccount = {
     "type": process.env.FIREBASE_TYPE,
@@ -47,9 +47,18 @@ firestore.createDocument = async (collection: string, data: any) => {
 
 firestore.updateDocument = async (collection: string, id: string, data: any) => {
     console.info('INICIO - atualiza um document no firebase - firestore.updateDocument');
-    const res = await firestoreInstance.collection(collection).doc(id).update(data);
+
+    let query: any = firestoreInstance.collection(collection);
+    query = query.where("id", "==", id);
+
+    const documents = await query.get();
+
+    const document = await documents.docs.map((doc: any) => {
+        return doc.ref.update(data);
+    })[0];
+
     console.info('FIM - atualiza um document no firebase - firestore.updateDocument');
-    return res;
+    return document;
 }
 
 firestore.deleteDocument = async (collection: string, id: string) => {

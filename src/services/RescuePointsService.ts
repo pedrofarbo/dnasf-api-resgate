@@ -53,11 +53,12 @@ export const create = async (rescuePoint: RescuePoints) => {
 
 export const putRescued = async (rescuePointId: string) => {
     console.info('INICIO - alteração para resgatado para o ponto ' + rescuePointId +  ' de solicitação de resgate - putRescued');
-    let rescuePoint = await getById(rescuePointId);
+    let rescuePoint: any = await getById(rescuePointId);
+    console.log(rescuePoint);
 
     rescuePoint.alreadyRescued = true;
     
-    const response = await firestore.updateDocument("rescuePoints", rescuePointId, rescuePoint); 
+    const response = await firestore.updateDocument("rescuePoints", rescuePoint.id, rescuePoint); 
 
     console.info('FIM - alteração para resgatado para o ponto ' + rescuePointId +  ' de solicitação de resgate - putRescued');
     return response;
