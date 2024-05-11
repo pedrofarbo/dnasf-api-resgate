@@ -15,6 +15,6 @@ app.use('/', index);
 app.use('/api/v1/rescue-points', rescuePointsRoutes);
 app.use('/api/v1/rescue-bases', rescueBaseRoutes);
 
-app.listen(process.env.PORT, () => {
-    console.info('server running on port ' + process.env.PORT);
+app.listen(process.env.SERVER_PORT, () => {
+    console.info('server running on port ' + process.env.SERVER_PORT);
 })
