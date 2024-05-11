@@ -13,9 +13,11 @@
     "firebase-admin": "^12.1.0"
   },
   "scripts": {
-    "start": "node server.js",
     "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/server.ts",
     "build": "tsc"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
