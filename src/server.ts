@@ -15,8 +15,8 @@ app.use('/', index);
 app.use('/api/v1/rescue-points', rescuePointsRoutes);
 app.use('/api/v1/rescue-bases', rescueBaseRoutes);
 
-const port: any = process.env.PORT ?? 8080;
+const PORT = process.env.PORT || 8080
 
-app.listen(port, () => {
-    console.info('server running on port ' + port);
+app.listen(PORT, () => {
+    console.info('server running on port ' + PORT);
 })
