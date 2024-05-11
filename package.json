@@ -1,7 +1,7 @@
 {
   "name": "api-busca-dnasf",
   "version": "0.0.1",
-  "main": "server.js",
+  "main": "workspace/server.js",
   "author": "Pedro Farbo",
   "license": "MIT",
   "private": true,
