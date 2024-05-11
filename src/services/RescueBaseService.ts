@@ -1,10 +1,10 @@
 import { randomUUID } from 'crypto';
 import { RescueBases } from '../models/IRescueBases';
 
-const firestore = require('../integrations/firestore/firestore');
+import firestore from '../integrations/firestore/firestore';
 
 // Return the list of rescue bases
-const getAll = async () => {
+export const getAll = async () => {
     console.info('INICIO - busca de todos as bases de resgate - getAll');
 
     const rescueBases: RescueBases[] = await firestore.getAll('rescueBases');
@@ -31,25 +31,19 @@ const getAll = async () => {
 }
 
 // Return the rescue point with the given ID
-const getById = async (id: string) => {
+export const getById = async (id: string) => {
     console.info('INICIO - busca de um unica base de resgate - geById');
     const res = await firestore.getDocument("rescueBases", id);
     console.info('FIM - busca de um unica base de resgate - geById');
     return res;
 }
 
-const create = async (rescueBase: RescueBases) => {
+export const create = async (rescueBase: RescueBases) => {
     console.info('INICIO - criação de uma base de resgate - create');
     rescueBase.id = randomUUID();
     rescueBase.creationDate = new Date();
 
     await firestore.createDocument("rescueBases", rescueBase);
-    console.info('FIM - criação de uma base de resgate - create');
+    console.info('FIM - criação base de resgate - create');
     return await getById(rescueBase.id);
 }
-
-module.exports = {
-    getAll,
-    getById,
-    create
-};

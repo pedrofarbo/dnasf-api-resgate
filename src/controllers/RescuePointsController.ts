@@ -1,14 +1,16 @@
 import { RescuePoints } from "../models/IRescuePoints";
 
-const rescuePointsService = require('../services/RescuePointsService');
+import {getById, getAll, create, putRescued} from '../services/RescuePointsService';
 
-exports.getById = async (req: any, res: any, next: any) => {
+const RescuePointsController: any = {};
+
+RescuePointsController.getById = async (req: any, res: any, next: any) => {
     console.info('INICIO - rescuePointsController.geById');
     if(req.params.id === undefined) {
         res.status(400).send('ID não informado.');
     }
 
-    const response: RescuePoints = await rescuePointsService.getById(req.params.id);
+    const response: RescuePoints = await getById(req.params.id);
 
     try {
         if(response === undefined) {
@@ -23,9 +25,9 @@ exports.getById = async (req: any, res: any, next: any) => {
     }
 };
 
-exports.getAll = async (req: any, res: any, next: any) => {
+RescuePointsController.getAll = async (req: any, res: any, next: any) => {
     console.info('INICIO - rescuePointsController.getAll');
-    const response: RescuePoints[] = await rescuePointsService.getAll();
+    const response: RescuePoints[] = await getAll();
 
     try {
         if(response === undefined) {
@@ -44,13 +46,13 @@ exports.getAll = async (req: any, res: any, next: any) => {
     }
 };
 
-exports.create = async (req: any, res: any, next: any) => {
+RescuePointsController.create = async (req: any, res: any, next: any) => {
     console.info('INICIO - rescuePointsController.create');
     if(req.body === undefined) {
         res.status(400).send('Corpo da requisição não informado.');
     }
 
-    const response: RescuePoints = await rescuePointsService.create(req.body);
+    const response: RescuePoints = await create(req.body);
 
     try {
         if(response !== undefined) {
@@ -63,13 +65,13 @@ exports.create = async (req: any, res: any, next: any) => {
     }
 };
 
-exports.putToRescued = async (req: any, res: any, next: any) => {
+RescuePointsController.putToRescued = async (req: any, res: any, next: any) => {
     console.info('INICIO - rescuePointsController.putToRescued');
     if(req.params.id === undefined) {
         res.status(400).send('ID não informado.');
     }
 
-    const response: RescuePoints = await rescuePointsService.putRescued(req.params.id);
+    const response: RescuePoints = await putRescued(req.params.id);
 
     try {
         if(response !== undefined) {
@@ -81,3 +83,5 @@ exports.putToRescued = async (req: any, res: any, next: any) => {
         res.status(500).send("erro inesperado no servidor, tente novamente mais tarde.");
     }
 };
+
+export default RescuePointsController;

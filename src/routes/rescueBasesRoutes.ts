@@ -1,10 +1,10 @@
 import express from 'express'
 const rescueBaseRouter = express.Router();
-const controller = require('../controllers/rescueBaseController');
+import RescueBaseController from '../controllers/RescueBaseController';
 
-rescueBaseRouter.get('/all', controller.getAll);
-rescueBaseRouter.get('/:id', controller.getById);
-rescueBaseRouter.post('/', controller.create);
+rescueBaseRouter.get('/all', RescueBaseController.getAll);
+rescueBaseRouter.get('/:id', RescueBaseController.getById);
+rescueBaseRouter.post('/', RescueBaseController.create);
 
 module.exports = rescueBaseRouter;
 

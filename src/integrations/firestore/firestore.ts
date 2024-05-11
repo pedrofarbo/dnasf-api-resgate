@@ -2,6 +2,8 @@ import firebase from "firebase-admin";
 import dotenv from "dotenv";
 dotenv.config();
 
+const firestore: any = {}
+
 const {private_key} = JSON.parse(process.env.FIREBASE_PRIVATE_KEY || "{}");
 
 const serviceAccount = {
@@ -23,11 +25,11 @@ firebase.initializeApp({
 });
 
 // Create a new client
-const firestore = firebase.firestore();
+const firestoreInstance = firebase.firestore();
 
-const getDocument = async (collection: string, id: string) => {
+firestore.getDocument = async (collection: string, id: string) => {
     console.info('INICIO - busca getDocument no firebase - firestore.getDocument');
-    let query: any = firestore.collection(collection);
+    let query: any = firestoreInstance.collection(collection);
     query = query.where("id", "==", id);
 
     const documents = await query.get();
@@ -36,30 +38,30 @@ const getDocument = async (collection: string, id: string) => {
     return documents.docs.map((doc: any) => doc.data())[0];
 }
 
-const createDocument = async (collection: string, data: any) => {
+firestore.createDocument = async (collection: string, data: any) => {
     console.info('INICIO - cria um novo document no firebase - firestore.createDocument');
-    const document = await firestore.collection(collection).add(data);
+    const document = await firestoreInstance.collection(collection).add(data);
     console.info('FIM - cria um novo document no firebase - firestore.createDocument');
     return document.id;
 }
 
-const updateDocument = async (collection: string, id: string, data: any) => {
+firestore.updateDocument = async (collection: string, id: string, data: any) => {
     console.info('INICIO - atualiza um document no firebase - firestore.updateDocument');
-    const res = await firestore.collection(collection).doc(id).update(data);
+    const res = await firestoreInstance.collection(collection).doc(id).update(data);
     console.info('FIM - atualiza um document no firebase - firestore.updateDocument');
     return res;
 }
 
-const deleteDocument = async (collection: string, id: string) => {
+firestore.deleteDocument = async (collection: string, id: string) => {
     console.info('INICIO - deleta um document no firebase - firestore.deleteDocument');
-    const res = await firestore.collection(collection).doc(id).delete();
+    const res = await firestoreInstance.collection(collection).doc(id).delete();
     console.info('FIM - deleta um document no firebase - firestore.deleteDocument');
     return res;
 }
 
-const getAll = async (collection: string, filter?: { field: string, operator: string, value: any }) => {
+firestore.getAll = async (collection: string, filter?: { field: string, operator: string, value: any }) => {
     console.info('INICIO - recupera todos os documents no firebase - firestore.getAll');
-    let query: any = firestore.collection(collection);
+    let query: any = firestoreInstance.collection(collection);
 
     if (filter) {
         query = query.where(filter.field, filter.operator, filter.value);
@@ -72,12 +74,4 @@ const getAll = async (collection: string, filter?: { field: string, operator: st
     return documents.docs.map((doc: any) => doc.data());
 }
 
-module.exports = {
-    getDocument,
-    createDocument,
-    updateDocument,
-    deleteDocument,
-    getAll
-};
-
-
+export default firestore;

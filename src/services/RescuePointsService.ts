@@ -1,9 +1,9 @@
 import { randomUUID } from 'crypto';
 import { RescuePoints } from '../models/IRescuePoints';
-const firestore = require('../integrations/firestore/firestore');
+import firestore from '../integrations/firestore/firestore';
 
 // Return the list of rescue points
-const getAll = async () => {
+export const getAll = async () => {
     console.info('INICIO - busca de todos os pontos de solicitação de resgate - getAll');
 
     const rescuePoints: RescuePoints[] = await firestore.getAll('rescuePoints', { field: 'alreadyRescued', operator: '==', value: false });
@@ -31,14 +31,14 @@ const getAll = async () => {
 }
 
 // Return the rescue point with the given ID
-const getById = async (id: string) => {    
+export const getById = async (id: string) => {    
     console.info('INICIO - busca de um unico ponto de solicitação de resgate - geById');
     const res: any = await firestore.getDocument("rescuePoints", id);
     console.info('FIM - busca de um unico ponto de solicitação de resgate - geById');
     return res;
 }
 
-const create = async (rescuePoint: RescuePoints) => {
+export const create = async (rescuePoint: RescuePoints) => {
     console.info('INICIO - criação de um unico ponto de solicitação de resgate - create');
 
     rescuePoint.alreadyRescued = false;
@@ -51,7 +51,7 @@ const create = async (rescuePoint: RescuePoints) => {
     return await getById(rescuePoint.id);
 }
 
-const putRescued = async (rescuePointId: string) => {
+export const putRescued = async (rescuePointId: string) => {
     console.info('INICIO - alteração para resgatado para o ponto ' + rescuePointId +  ' de solicitação de resgate - putRescued');
     let rescuePoint = await getById(rescuePointId);
 
@@ -62,10 +62,3 @@ const putRescued = async (rescuePointId: string) => {
     console.info('FIM - alteração para resgatado para o ponto ' + rescuePointId +  ' de solicitação de resgate - putRescued');
     return response;
 }
-
-module.exports = {
-    getAll,
-    getById,
-    create,
-    putRescued
-};

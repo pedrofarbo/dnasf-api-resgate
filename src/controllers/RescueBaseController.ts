@@ -1,14 +1,16 @@
 import { RescueBases } from "../models/IRescueBases";
 
-const rescueBaseService = require('../services/RescueBaseService');
+import { getAll, getById, create } from '../services/RescueBaseService';
 
-exports.getById = async (req: any, res: any, next: any) => {
+const RescueBaseController: any = {};
+
+RescueBaseController.getById = async (req: any, res: any, next: any) => {
     console.info('INICIO - rescueBaseController.getById');
     if(req.params.id === undefined) {
         res.status(400).send('ID não informado.');
     }
 
-    const response: RescueBases = await rescueBaseService.getById(req.params.id);
+    const response: RescueBases = await getById(req.params.id);
 
     try {
         if(response === undefined) {
@@ -23,9 +25,9 @@ exports.getById = async (req: any, res: any, next: any) => {
     }
 };
 
-exports.getAll = async (req: any, res: any, next: any) => {
+RescueBaseController.getAll = async (req: any, res: any, next: any) => {
     console.info('INICIO - rescueBaseController.getAll');
-    const response: RescueBases[] = await rescueBaseService.getAll();
+    const response: RescueBases[] = await getAll();
 
     try {
         if(response === undefined) {
@@ -44,13 +46,13 @@ exports.getAll = async (req: any, res: any, next: any) => {
     }
 };
 
-exports.create = async (req: any, res: any, next: any) => {
+RescueBaseController.create = async (req: any, res: any, next: any) => {
     console.info('INICIO - rescueBaseController.create');
     if(req.body === undefined) {
         res.status(400).send('Corpo da requisição não informado.');
     }
 
-    const response: RescueBases = await rescueBaseService.create(req.body);
+    const response: RescueBases = await create(req.body);
 
     try {
         if(response !== undefined) {
@@ -62,3 +64,5 @@ exports.create = async (req: any, res: any, next: any) => {
         res.status(500).send("erro inesperado no servidor, tente novamente mais tarde.");
     }
 };
+
+export default RescueBaseController;

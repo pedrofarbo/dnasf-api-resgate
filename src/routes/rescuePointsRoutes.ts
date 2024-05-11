@@ -1,11 +1,11 @@
 import express from 'express'
 const rescuePointsRouter = express.Router();
-const controller = require('../controllers/rescuePointsController');
+import RescuePointsController from '../controllers/RescuePointsController';
 
-rescuePointsRouter.get('/all', controller.getAll);
-rescuePointsRouter.get('/:id', controller.getById);
-rescuePointsRouter.post('/', controller.create);
-rescuePointsRouter.put('/:id', controller.putToRescued);
+rescuePointsRouter.get('/all', RescuePointsController.getAll);
+rescuePointsRouter.get('/:id', RescuePointsController.getById);
+rescuePointsRouter.post('/', RescuePointsController.create);
+rescuePointsRouter.put('/:id', RescuePointsController.putToRescued);
 
 module.exports = rescuePointsRouter;
 
